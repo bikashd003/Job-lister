@@ -1,7 +1,10 @@
 import express from 'express';
 import connectDb from './Database/Db.js'
 import dotenv from 'dotenv'
+import loginRouter from './Routes/login.routes.js';
+import registerRouter from './Routes/register.routes.js';
 dotenv.config({ path: './.env' })
+
 const app = express();
 app.use(express.json());
 
@@ -24,3 +27,5 @@ connectDb()
     .catch((error) => {
         console.log("MongoDB connection error", error)
     })
+app.use('/api',registerRouter)
+app.use('/api',loginRouter)

@@ -5,8 +5,8 @@ const isLoggedIn = (req, res, next) => {
       res.status(401).json({ message: "unauthorized" });
    }
    try {
-      const user = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = user;
+      const recruiter = jwt.verify(token, process.env.JWT_SECRET);
+      req.recruiter = recruiter;
       next();
    }
    catch (err) {

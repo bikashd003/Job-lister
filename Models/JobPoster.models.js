@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const recruiterSchema = new Schema({
+const jobPosterSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -28,5 +28,4 @@ const recruiterSchema = new Schema({
     timestamps: true
 });
 
-
-export default mongoose.model('Recruiter', recruiterSchema);
+export default mongoose.model('Recruiter', jobPosterSchema);

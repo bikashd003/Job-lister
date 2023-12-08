@@ -3,6 +3,7 @@ import connectDb from './Database/Db.js'
 import dotenv from 'dotenv'
 import loginRouter from './Routes/login.routes.js';
 import registerRouter from './Routes/register.routes.js';
+import errorHandler from './Middleware/ApiError.middleware.js';
 dotenv.config({ path: './.env' })
 
 const app = express();
@@ -27,5 +28,6 @@ connectDb()
     .catch((error) => {
         console.log("MongoDB connection error", error)
     })
+app.use(errorHandler)
 app.use('/api',registerRouter)
 app.use('/api',loginRouter)

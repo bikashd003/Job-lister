@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 const isLoggedIn = (req, res, next) => {
-   const token = localStorage.getItem('token');
+   // const token = localStorage.getItem('token');
+   const {token}=req.headers;
    if (!token) {
       res.status(401).json({ message: "unauthorized" });
    }

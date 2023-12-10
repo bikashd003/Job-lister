@@ -35,7 +35,7 @@ const jobSchema = new Schema({
     enum:["remote","office"]
   },
   salary: {
-    type: Number,
+    type: String,
     required: true
   },
   description: {

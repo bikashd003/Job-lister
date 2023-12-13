@@ -12,6 +12,7 @@ const isLoggedIn = (req, res, next) => {
    }
    catch (err) {
       res.status(401).json({ message: "unauthorized" });
+      res.redirect('/')
    }
 }
 export default isLoggedIn;

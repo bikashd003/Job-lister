@@ -21,7 +21,7 @@ loginRouter.post('/login', async (req, res) => {
             if (isPasswordValid) {
                 const token = jwt.sign(recruiter.toJSON(), process.env.JWT_SECRET, { expiresIn: '10d' });
                 // localStorage.setItem('token', token);
-                return res.status(200).json({ message: "Login successfully", token })
+                return res.status(200).json({ message: "Login successfully", token,recruiterName:recruiter.name })
             }
             else {
                 return res.status(400).json({ msg: "Invalid credentials" });

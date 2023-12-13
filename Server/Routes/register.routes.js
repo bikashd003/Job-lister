@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jobPosterSchema from '../Models/JobPoster.models.js'
+import jwt from 'jsonwebtoken';
 
 const registerRouter = express.Router();
 
@@ -15,9 +16,10 @@ registerRouter.post('/register', async (req, res) => {
             return res.status(422).json({ error: "Email already exist" });
         }
         const encryptedPassword = await bcrypt.hash(password, 10);
-        const user = new jobPosterSchema({ name, email, mobile, password:encryptedPassword });
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '10d' });
+        const user = new jobPosterSchema({ name, email, mobile, password: encryptedPassword });
         await user.save();
-        res.status(201).json({ message: "User registered successfully" });
+        res.status(201).json({ message: "User registered successfully", recruiterName: name, token:token});
     }
     catch (err) {
         console.log("error to save user data", err)

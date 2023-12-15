@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import axios from "axios";
 import './Register.css'
 import frontImg from "../../assets/front.png";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [recruiter, setRecruiter] = useState({
@@ -10,10 +11,26 @@ const Register = () => {
     name: "",
     mobile: "",
   });
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    axios.post("http://localhost:4000/api/register",{
+      name: recruiter.name,
+      email: recruiter.email,
+      password: recruiter.password,
+      mobile: recruiter.mobile,
+    })
+    .then((response) => {
+      console.log("Data sent successfully:", response.data);
+      if(response.data.token){
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("logged_user", response.data.recruiterName)
+        navigate("/jobs")
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending data:", error);
+    })
   };
 
   return (
@@ -24,8 +41,6 @@ const Register = () => {
           <h4>Your personal job finder is here</h4>
 
           <form
-            action=""
-            method="post"
             onSubmit={handleSubmit}
             className="login-form"
           >

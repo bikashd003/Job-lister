@@ -57,21 +57,15 @@ jobRouter.patch('/update-job/:jobId', isLoggedIn, async (req, res) => {
 jobRouter.get('/get-job', async (req, res) => {
     try {
         const { skillsRequired, position } = req.query;
-
-        // Build the query object based on filters
         const query = {};
 
         if (skillsRequired) {
-            // If skills parameter is present, filter by skills
-            query['job.skillsRequired'] = { $all: skillsRequired.split(',') };
+            query['job.skillsRequired'] = { $in: skillsRequired.split(',') };
         }
 
         if (position) {
-            // If title parameter is present, filter by job title
             query['job.position'] = { $regex: new RegExp(position, 'i') };
         }
-
-        // Use the query object to find jobs
         const jobs = await jobPostingSchema.find(query);
 
         res.status(200).json({

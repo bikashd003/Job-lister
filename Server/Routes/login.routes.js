@@ -20,7 +20,7 @@ loginRouter.post('/login', async (req, res) => {
             const isPasswordValid = await bcrypt.compare(password, recruiter.password);
             if (isPasswordValid) {
                 const token = jwt.sign(recruiter.toJSON(), process.env.JWT_SECRET, { expiresIn: '10d' });
-                // localStorage.setItem('token', token);
+              
                 return res.status(200).json({ message: "Login successfully", token,recruiterName:recruiter.name })
             }
             else {

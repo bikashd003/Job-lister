@@ -4,11 +4,12 @@ import dotenv from 'dotenv'
 import loginRouter from './Routes/login.routes.js';
 import registerRouter from './Routes/register.routes.js';
 import jobRouter from './Routes/job.routes.js';
+import cors from 'cors'
 dotenv.config({ path: './.env' })
 
 const app = express();
 app.use(express.json());
-
+app.use(cors());
 app.get('/health', (req, res) => {
     res.status(200).json({
         serverTime: new Date().toLocaleString(),

@@ -48,6 +48,7 @@
   color: #fff;
   font-weight: 700;
   margin: 0.8vw 0 0.5vw 0;
+  cursor: pointer;
 }
 .login-container .right-side {
   flex: 1 1 0;

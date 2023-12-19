@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import frontImg from "../../assets/front.png";
 import axios from "axios";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate=useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,14 +20,23 @@ const Login = () => {
       .then((response) => {
         console.log("Data sent successfully:", response.data);
         localStorage.setItem("token", response.data.token)
+        localStorage.setItem("recruiterName", response.data.recruiterName)
         setEmail("");
         setPassword("");
+        navigate("/");
+        
       })
       .catch((error) => {
         console.error("Error sending data:", error);
       });
-  };
-
+    };
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        navigate("/");
+      }
+    }, [navigate])
+    
   return (
     <>
       <div className="login-container">
@@ -34,8 +45,6 @@ const Login = () => {
           <h4>Your personal job finder is here</h4>
 
           <form
-            action=""
-            method="post"
             onSubmit={handleSubmit}
             className="login-form"
           >

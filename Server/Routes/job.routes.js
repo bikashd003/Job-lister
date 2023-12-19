@@ -54,7 +54,7 @@ jobRouter.patch('/update-job/:jobId', isLoggedIn, async (req, res) => {
         errorHandler(res, err)
     }
 })
-jobRouter.get('/get-job', async (req, res) => {
+jobRouter.get('/get-jobs', async (req, res) => {
     try {
         const { skillsRequired, position } = req.query;
         const query = {};
@@ -66,16 +66,19 @@ jobRouter.get('/get-job', async (req, res) => {
         if (position) {
             query['job.position'] = { $regex: new RegExp(position, 'i') };
         }
-        const jobs = await jobPostingSchema.find(query);
+
+        const jobs = await (Object.keys(query).length > 0
+            ? jobPostingSchema.find(query)
+            : jobPostingSchema.find());
 
         res.status(200).json({
             jobs,
         });
+    } catch (err) {
+        errorHandler(res, err);
     }
-    catch (err) {
-        errorHandler(res, err)
-    }
-})
+});
+
 jobRouter.get('/get-job/:jobId', async (req, res) => {
     const { jobId } = req.params;
     try {

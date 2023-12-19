@@ -25,7 +25,7 @@ const Register = () => {
       if(response.data.token){
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("logged_user", response.data.recruiterName)
-        navigate("/jobs")
+        navigate("/")
       }
     })
     .catch((error) => {

@@ -7,11 +7,12 @@ const isLoggedIn = (req, res, next) => {
    try {
       const recruiter = jwt.verify(token, process.env.JWT_SECRET);
       req.recruiter = recruiter;
+      console.log(recruiter);
       next();
    }
    catch (err) {
       res.status(401).json({ message: "unauthorized" });
-      res.redirect('/')
+      
    }
 }
 export default isLoggedIn;

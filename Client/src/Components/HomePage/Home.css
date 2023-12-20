@@ -93,8 +93,8 @@
   display: flex;
   margin-top: 1em;
   gap: 20px;
-  width: 70%;
   margin-right: 0;
+  margin-left: auto;
 }
 .job-container .right-job-details .job-buttons button {
   cursor: pointer;
@@ -108,10 +108,10 @@
   font-weight: 600;
 }
 .job-container .right-job-details .job-buttons .view-job {
-  width: 10em;
+  width: 9em;
 }
 .job-container .right-job-details .job-buttons .edit-job {
-  width: 10em;
+  width: 9em;
   background-color: transparent;
   border: 2px solid #ED5353;
   color: #ED5353;

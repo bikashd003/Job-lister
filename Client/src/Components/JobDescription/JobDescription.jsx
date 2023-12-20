@@ -43,7 +43,10 @@ const JobDescription = () => {
         console.log(error);
       });
       updateJobDetails();
-  }, [jobId,jobDetails]);
+  }, []);
+  useEffect(()=>{
+updateJobDetails();
+  },[jobDetails])
   const [job, setJob] = useState({
     companyName: "",
     logoURL: "",
@@ -278,11 +281,7 @@ const JobDescription = () => {
               />
             </div>
             <div className="buttons">
-              {/* {job ? (
-                <button onClick={handleCancel}>Cancel</button>
-              ) : (
-                <button disabled>Cancel</button>
-              )} */}
+                <button onClick={handleCancel} className="cancel-btn">Cancel</button>
              {jobId ? (  <button onClick={handleUpdate}>
                 Update Job
               </button>):( <button type="submit" onClick={handleSubmit}>

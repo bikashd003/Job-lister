@@ -8,7 +8,18 @@ import axios from "axios";
 
 const Home = () => {
   const [job, setJob] = useState([]);
+  const [search, setSearch] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
+
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const recruiterName = localStorage.getItem("recruiterName");
+
+    if (token && recruiterName) {
+      setUserName(recruiterName);
+      setIsLoggedIn(true);
+    }
     axios
       .get("http://localhost:4000/api/get-jobs")
       .then((res) => {
@@ -65,9 +76,9 @@ const Home = () => {
                       })}
                     </div>
                     <div className="job-buttons">
-                      <Link to={`/update-job/${jobData._id}`}>
+                    {isLoggedIn?   <Link to={`/update-job/${jobData._id}`}>
                         <button className="edit-job">Edit job</button>
-                      </Link>
+                      </Link>:""}
                       <Link to={`/view-job/${jobData._id}`}>
                         <button className="view-job">View details</button>
                       </Link>

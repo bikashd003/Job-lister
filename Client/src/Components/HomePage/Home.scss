@@ -102,8 +102,8 @@
             display: flex;
             margin-top: 1em;
             gap: 20px;
-            width: 70%;
             margin-right: 0;
+            margin-left: auto;
 
             button {
                 cursor: pointer;
@@ -118,12 +118,12 @@
             }
 
             .view-job {
-                width: 10em;
+                width: 9em;
 
             }
 
             .edit-job {
-                width: 10em;
+                width: 9em;
                 background-color: transparent;
                 border: 2px solid #ED5353;
                 color: #ED5353;

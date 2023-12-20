@@ -108,6 +108,11 @@
   color: #fff;
   font-weight: 600;
 }
+.update-job-container .left-side .add-job .cancel-btn {
+  color: #ED5353;
+  background-color: transparent;
+  border: 1px solid #ED5353;
+}
 .update-job-container .right-side {
   flex: 1 1 0;
   height: 100vh;

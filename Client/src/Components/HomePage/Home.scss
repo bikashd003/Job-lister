@@ -104,11 +104,9 @@
             gap: 20px;
             width: 70%;
             margin-right: 0;
-            margin-left: auto;
 
             button {
                 cursor: pointer;
-                width: 10rem;
                 padding: 0.6em 0.6em;
                 border-radius: 5px;
                 outline: none;
@@ -119,7 +117,13 @@
                 font-weight: 600;
             }
 
+            .view-job {
+                width: 10em;
+
+            }
+
             .edit-job {
+                width: 10em;
                 background-color: transparent;
                 border: 2px solid #ED5353;
                 color: #ED5353;

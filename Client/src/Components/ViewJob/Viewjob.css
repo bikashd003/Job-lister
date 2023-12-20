@@ -103,12 +103,12 @@ nav .login-signup .register {
 .main .main-job-container .job-description .position h1 {
   font-size: 2vmax;
 }
-.main .main-job-container .job-description .position button {
-  padding: 0.8vw 1vw;
+.main .main-job-container .job-description .position .edit-job {
+  padding: 0.5vw 1vw;
   border-radius: 5px;
   outline: none;
   border: 0;
-  font-size: 1.3vmax;
+  font-size: 0.8vmax;
   background-color: #ED5353;
   color: #fff;
   font-weight: 700;

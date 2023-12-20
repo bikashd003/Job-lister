@@ -1,12 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import wallpaper from "../../assets/wallpaper.png";
 import { LuPlus } from "react-icons/lu";
 import "./JobDescription.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useParams, useNavigate } from "react-router-dom";
 
 const JobDescription = () => {
+  const { jobId } = useParams();
+  const navigate = useNavigate();
+  const [jobDetails, setJobDetails] = useState(null);
+  const token = localStorage.getItem("token");
+  const headers = {
+    token: token,
+  };
+  const updateJobDetails=()=>{
+    if (jobDetails) {
+      setJob((prevJob) => ({
+        ...prevJob,
+        companyName: jobDetails?.company?.name || "",
+        logoURL: jobDetails?.company?.logoURL || "",
+        about: jobDetails?.company?.about || "",
+        position: jobDetails?.job?.position || "",
+        type: jobDetails?.job?.type || "",
+        location: jobDetails?.job?.location || "",
+        remoteOrOffice: jobDetails?.job?.remoteOrOffice || "",
+        salary: jobDetails?.job?.salary || "",
+        description: jobDetails?.job?.description || "",
+        skillsRequired: jobDetails?.job?.skillsRequired || "",
+        additionalInformation: jobDetails?.job?.additionalInformation || "",
+      }));
+    }
+  }
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/api/get-job/${jobId}`)
+      .then((response) => {
+        setJobDetails(response.data.job);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      updateJobDetails();
+  }, [jobId,jobDetails]);
   const [job, setJob] = useState({
     companyName: "",
     logoURL: "",
@@ -22,76 +59,88 @@ const JobDescription = () => {
   });
   const handleSubmit = (event) => {
     if (
-      job.companyName === "" ||
-      job.logoURL === "" ||
-      job.about === "" ||
-      job.position === "" ||
-      job.type === "" ||
-      job.location === "" ||
-      job.remoteOrOffice === "" ||
-      job.salary === "" ||
-      job.description === "" ||
-      job.skillsRequired === "" ||
-      job.additionalInformation === ""
+      job.companyName === "" || job.logoURL === "" || job.about === "" || job.position === "" ||
+      job.type === "" || job.location === "" || job.remoteOrOffice === "" || job.salary === "" ||
+      job.description === "" || job.skillsRequired === "" || job.additionalInformation === ""
     ) {
       toast("All field is required");
     }
     event.preventDefault();
-    const token=localStorage.getItem("token")
-    const headers = {
-      token: token,
-    }
+   
     axios
-      .post("http://localhost:4000/api/create-job", {
-        company: {
-          name: job.companyName,
-          logoURL: job.logoURL,
-          about: job.about,
+      .post(
+        "http://localhost:4000/api/create-job",
+        {
+          company: {
+            name: job.companyName,
+            logoURL: job.logoURL,
+            about: job.about,
+          },
+          job: {
+            position: job.position,
+            type: job.type,
+            location: job.location,
+            remoteOrOffice: job.remoteOrOffice,
+            salary: job.salary,
+            description: job.description,
+            skillsRequired: job.skillsRequired,
+            additionalInformation: job.additionalInformation,
+          },
         },
-        job: {
-          position: job.position,
-          type: job.type,
-          location: job.location,
-          remoteOrOffice: job.remoteOrOffice,
-          salary: job.salary,
-          description: job.description,
-          skillsRequired: job.skillsRequired,
-          additionalInformation: job.additionalInformation,
-        },
-      },{
-        headers:headers,
-      }
+        {
+          headers: headers,
+        }
       )
 
-      .then((response) => {
-        console.log("Data sent successfully:", response.data);
-        setJob({
-          companyName: "",
-          logoURL: "",
-          about: "",
-          position: "",
-          type: "",
-          location: "",
-          remoteOrOffice: "",
-          salary: "",
-          description: "",
-          skillsRequired: "",
-          additionalInformation: "",
-        });
-      toast("Job add successfully");
-
+      .then(() => {
+        navigate("/");
+        toast("Job add successfully");
       })
       .catch((error) => {
         console.error("Error sending data:", error);
       });
   };
-
+  const handleCancel = () => {
+    navigate("/");
+  };
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    axios.put(`http://localhost:4000/api/update-job/${jobId}`,
+    {
+      company: {
+        name: job.companyName,
+        logoURL: job.logoURL,
+        about: job.about,
+      },
+      job: {
+        position: job.position,
+        type: job.type,
+        location: job.location,
+        remoteOrOffice: job.remoteOrOffice,
+        salary: job.salary,
+        description: job.description,
+        skillsRequired: job.skillsRequired,
+        additionalInformation: job.additionalInformation,
+      },
+    },
+    {
+      headers: headers,
+    })
+    .then(() => {
+      toast("Job updated successfully");
+      navigate("/");
+  })
+    .catch((error) => {
+      toast("Error sending data:");
+    })
+  }
+  //which jobs are created which person only that person can edit that perticular job
   return (
     <>
-      <div className="job-container">
+      <div className="update-job-container">
         <div className="left-side">
           <h1>Add job description</h1>
-          <form className="add-job" onSubmit={handleSubmit}>
+          <form className="add-job" >
             <div className="job-details">
               <label htmlFor="company-name">Company Name </label>
               <input
@@ -156,7 +205,9 @@ const JobDescription = () => {
                   name="remote-office"
                   id="remote-office"
                   value={job.remoteOrOffice}
-                  onChange={(e) => setJob({ ...job, remoteOrOffice: e.target.value })}
+                  onChange={(e) =>
+                    setJob({ ...job, remoteOrOffice: e.target.value })
+                  }
                 >
                   <option value="">Select</option>
                   <option value="remote">Remote</option>
@@ -227,10 +278,16 @@ const JobDescription = () => {
               />
             </div>
             <div className="buttons">
-              <button type="reset">Cancel</button>
-              <button type="submit">
+              {/* {job ? (
+                <button onClick={handleCancel}>Cancel</button>
+              ) : (
+                <button disabled>Cancel</button>
+              )} */}
+             {jobId ? (  <button onClick={handleUpdate}>
+                Update Job
+              </button>):( <button type="submit" onClick={handleSubmit}>
                 <LuPlus /> Add Job
-              </button>
+              </button>)}
               <ToastContainer position="top-left" />
             </div>
           </form>

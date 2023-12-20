@@ -37,12 +37,22 @@ jobRouter.post('/create-job', isLoggedIn, async (req, res) => {
 
 
 
-jobRouter.patch('/update-job/:jobId', isLoggedIn, async (req, res) => {
+jobRouter.put('/update-job/:jobId', isLoggedIn, async (req, res) => {
     const { jobId } = req.params;
+    const { name, logoURL, about } = req.body.company;
+    const { position, type, location, remoteOrOffice, salary, description, skillsRequired, additionalInformation } = req.body.job;
     try {
+        if (!name || !logoURL || !about || !position || !type || !location || !remoteOrOffice || !salary || !description || !skillsRequired || !additionalInformation) {
+            res.status(400).json({
+                message: "All fields are required"
+            })
+        }
+        const skills = skillsRequired[0].split(',').map(skill => skill.trim());
+     
         const updatedJob = await jobPostingSchema.findOneAndUpdate(
             { _id: jobId },
-            { $set: { job: req.body } },
+            { $set: { company: { name, logoURL, about },
+            job: { position, type, location, remoteOrOffice, salary, description, skillsRequired:skills, additionalInformation }}},
             { new: true }
         );
         res.status(200).json({

@@ -26,11 +26,11 @@ const App = () => {
             element={<Register/>}
           />
           <Route
-            exact path="/add-job"
+            exact path="/update-job/:jobId"
             element={<JobDescription/>}
           />
           <Route
-            exact path="/view-job"
+            exact path="/view-job/:jobId"
             element={<Viewjob/>}
           />
           

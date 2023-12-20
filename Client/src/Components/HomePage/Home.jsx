@@ -3,6 +3,7 @@ import "./Home.css";
 import Navbar from "../ViewJob/Navbar";
 import { IoSearch } from "react-icons/io5";
 import { TbCurrencyRupee } from "react-icons/tb";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
@@ -31,48 +32,53 @@ const Home = () => {
           </div>
         </div>
         <div className="job-container-wraper">
-          {job.length > 0
-            ? job.map((jobData) => {
-                return (
-                  <div className="job-container" key={jobData._id}>
-                    <div className="left-job-details">
-                      <div className="company-icon">
-                        <img
-                          src={jobData.company.logoURL}
-                          alt={jobData.company.name}
-                        />
-                      </div>
-                      <div className="job-details">
-                        <h3>{jobData.job.position}</h3>
-                        <div className="salary-location">
-                          <p>
-                            <TbCurrencyRupee /> {jobData.job.salary}
-                          </p>
-                          <p>{jobData.job.location}</p>
-                        </div>
-
-                        <div className="job-types">
-                          <p>{jobData.job.remoteOrOffice}</p>
-                          <p>{jobData.job.type}</p>
-                        </div>
-                      </div>
+          {job.length > 0 ? (
+            job.map((jobData) => {
+              return (
+                <div className="job-container" key={jobData._id}>
+                  <div className="left-job-details">
+                    <div className="company-icon">
+                      <img
+                        src={jobData.company.logoURL}
+                        alt={jobData.company.name}
+                      />
                     </div>
-                    <div className="right-job-details">
-                      <div className="skills">
-                        {jobData.job.skillsRequired.map((skill) => {
-                          return <h1 key={skill}>{skill}</h1>;
-                        
-                        })}
+                    <div className="job-details">
+                      <h3>{jobData.job.position}</h3>
+                      <div className="salary-location">
+                        <p>
+                          <TbCurrencyRupee /> {jobData.job.salary}
+                        </p>
+                        <p>{jobData.job.location}</p>
                       </div>
-                      <div className="job-buttons">
-                        <button className="edit-job">Edit job</button>
-                        <button className="view-job">View details</button>
+
+                      <div className="job-types">
+                        <p>{jobData.job.remoteOrOffice}</p>
+                        <p>{jobData.job.type}</p>
                       </div>
                     </div>
                   </div>
-                );
-              })
-            : ""}
+                  <div className="right-job-details">
+                    <div className="skills">
+                      {jobData.job.skillsRequired.map((skill) => {
+                        return <h1 key={skill}>{skill}</h1>;
+                      })}
+                    </div>
+                    <div className="job-buttons">
+                      <Link to={`/update-job/${jobData._id}`}>
+                        <button className="edit-job">Edit job</button>
+                      </Link>
+                      <Link to={`/view-job/${jobData._id}`}>
+                        <button className="view-job">View details</button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <h1>Loading</h1>
+          )}
         </div>
       </div>
     </>
@@ -80,3 +86,7 @@ const Home = () => {
 };
 
 export default Home;
+
+
+//{data.filter((item)=>{
+  // return IoSearch.toLowerCase()===""?item:item.first_name.toLowerCase().includes()}).map((item)=>{))

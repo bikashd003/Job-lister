@@ -66,17 +66,17 @@ jobRouter.put('/update-job/:jobId', isLoggedIn, async (req, res) => {
 })
 jobRouter.get('/get-jobs', async (req, res) => {
     try {
-        const { skillsRequired, position } = req.query;
+        const { skillsRequired} = req.query;
+        const {  position } = req.query;
         const query = {};
 
         if (skillsRequired) {
-            query['job.skillsRequired'] = { $in: skillsRequired.split(',') };
+            query['job.skillsRequired'] = {  $regex: new RegExp(skillsRequired, 'i') };
         }
 
         if (position) {
             query['job.position'] = { $regex: new RegExp(position, 'i') };
         }
-
         const jobs = await (Object.keys(query).length > 0
             ? jobPostingSchema.find(query)
             : jobPostingSchema.find());

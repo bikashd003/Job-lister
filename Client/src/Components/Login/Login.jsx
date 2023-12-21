@@ -18,7 +18,6 @@ const Login = () => {
         password: password,
       })
       .then((response) => {
-        console.log("Data sent successfully:", response.data);
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("recruiterName", response.data.recruiterName)
         setEmail("");

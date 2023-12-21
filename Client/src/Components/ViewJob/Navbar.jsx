@@ -3,20 +3,27 @@ import "./Viewjob.css";
 import { useNavigate } from "react-router-dom";
 import {Link} from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({isLoggedIn,setIsLoggedIn }) => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const recruiterName = localStorage.getItem("recruiterName");
 
     if (token && recruiterName) {
       setUserName(recruiterName);
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [isLoggedIn, token, setIsLoggedIn]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("recruiterName");
+    setUserName("");
+    setIsLoggedIn(false);
+    setToken("");
+  };
 
   const handleRegister = () => {
     navigate("/register");
@@ -24,13 +31,6 @@ const Navbar = () => {
 
   const handleLogin = () => {
     navigate("/login");
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("recruiterName");
-    setUserName("");
-    setIsLoggedIn(false);
   };
 
   return (

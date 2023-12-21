@@ -18,6 +18,7 @@ nav .login-signup {
 }
 nav .login-signup .login,
 nav .login-signup .logout {
+  cursor: pointer;
   font-size: 0.8em;
   letter-spacing: 1px;
   padding: 0.5vw 0.8vw;
@@ -29,6 +30,7 @@ nav .login-signup .logout {
   background-color: transparent;
 }
 nav .login-signup .register {
+  cursor: pointer;
   padding: 0.5vw 0.8vw;
   color: #ED5353;
   border: 2px solid #fff;

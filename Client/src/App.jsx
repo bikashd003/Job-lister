@@ -7,6 +7,7 @@ import JobDescription from './Components/JobDescription/JobDescription';
 import Viewjob from './Components/ViewJob/Viewjob';
 import Home from './Components/HomePage/Home';
 
+
 const App = () => {
   return (
     <>
@@ -27,6 +28,10 @@ const App = () => {
           />
           <Route
             exact path="/update-job/:jobId"
+            element={<JobDescription/>}
+          />
+          <Route
+            exact path="/add-job"
             element={<JobDescription/>}
           />
           <Route

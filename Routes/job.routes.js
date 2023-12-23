@@ -47,7 +47,8 @@ jobRouter.put('/update-job/:jobId', isLoggedIn, async (req, res) => {
                 message: "All fields are required"
             })
         }
-        const skills = skillsRequired[0].split(',').map(skill => skill.trim());
+        console.log(skillsRequired);
+        const skills = skillsRequired.split(',').map(skill => skill.trim());
      
         const updatedJob = await jobPostingSchema.findOneAndUpdate(
             { _id: jobId },
@@ -66,12 +67,12 @@ jobRouter.put('/update-job/:jobId', isLoggedIn, async (req, res) => {
 })
 jobRouter.get('/get-jobs', async (req, res) => {
     try {
-        const { skillsRequired} = req.query;
+        const { skills} = req.query;
         const {  position } = req.query;
         const query = {};
-
-        if (skillsRequired) {
-            query['job.skillsRequired'] = {  $regex: new RegExp(skillsRequired, 'i') };
+        if (skills) {
+            console.log(skills);
+            query['job.skillsRequired'] = { $in: skills.split(",") };
         }
 
         if (position) {

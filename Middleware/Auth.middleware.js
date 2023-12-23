@@ -7,7 +7,6 @@ const isLoggedIn = (req, res, next) => {
    try {
       const recruiter = jwt.verify(token, process.env.JWT_SECRET);
       req.recruiter = recruiter;
-      console.log(recruiter);
       next();
    }
    catch (err) {

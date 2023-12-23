@@ -24,7 +24,7 @@ loginRouter.post('/login', async (req, res) => {
                 return res.status(200).json({ message: "Login successfully", token,recruiterName:recruiter.name })
             }
             else {
-                return res.status(400).json({ msg: "Invalid credentials" });
+                return res.status(400).json({ message: "Invalid credentials" });
             }
         }
     catch (err) {
